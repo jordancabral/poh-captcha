@@ -8,6 +8,7 @@ We have two key modules:
 ### frontend
 Right now its a simple react frontend with a Captcha component. The objetive is to have some default React component published, also we can have some other frameroks components ready to go.
 
+
 TODO'S:
 - Create react component a publish it
 - Create script to be added in any html form (like the one recaptcha uses)
@@ -26,4 +27,15 @@ TODO'S:
     - Nestjs Vaidator
     - Other backends languajes (Python, Java, Kotlin, Golang)
 
- 
+### running
+- frontend:
+```bash
+cd client
+npm start
+```
+
+- backend:
+```bash
+cd service
+npm run start
+```
