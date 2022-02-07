@@ -19,6 +19,11 @@ export class AppController {
       );
   };
 
+  @Get()
+  async getInfo() {
+    return "Up and running";
+  }
+
   @Post()
   async postForm(@Headers('poh-captcha') captcha: string): Promise<string> {
     const decodedCaptcha = Buffer.from(captcha, 'base64').toString('utf8');
