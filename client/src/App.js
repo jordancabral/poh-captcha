@@ -15,7 +15,7 @@ function App() {
   }
 
   const submit = () =>  {
-    const url = process.env.API_URL || 'http://localhost:3001'
+    const url = process.env.API_URL || 'https://poh-captcha.herokuapp.com'
     fetch(url, {
       method: 'post',
       headers: {'poh-captcha': captcha}
