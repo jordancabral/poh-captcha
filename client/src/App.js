@@ -15,7 +15,8 @@ function App() {
   }
 
   const submit = () =>  {
-    fetch('http://localhost:3001', {
+    const url = process.env.API_URL || 'http://localhost:3001'
+    fetch(url, {
       method: 'post',
       headers: {'poh-captcha': captcha}
     }).then(
