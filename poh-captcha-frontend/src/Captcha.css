@@ -1,0 +1,175 @@
+.captcha-container {
+    background-color: rgb(249, 249, 249);
+    border-style: groove;
+    border-width: 0.5px;
+    border-color: black;
+    width: fit-content;
+    padding: 15px;
+    margin: 10px;
+}
+
+.pure-material-checkbox {
+    z-index: 0;
+    position: relative;
+    display: inline-block;
+    color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.87);
+    font-family: var(--pure-material-font, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);
+    font-size: 24px;
+    line-height: 1.5;
+}
+
+.loader {
+    position: fixed;
+    margin-left: 5px;
+    margin-top: 3px;
+}
+
+.selfie {
+    position: absolute;
+    display:inline;
+    /* left: -10px; */
+    top: -8px;
+    right: 5px;
+    /* display: inline-flex; */
+    /* float: right; */
+    margin: 0;
+    width: 50px;
+    height: 50px;
+}
+
+.selfie img {
+    border-radius: 62px;
+    width: 50px;
+    height: 50px;
+}
+
+/* Checkbox */
+.pure-material-checkbox > div.checkbox{
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    z-index: -1;
+    position: absolute;
+    left: -10px;
+    top: -8px;
+    display: block;
+    margin: 0;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.6);
+    box-shadow: none;
+    outline: none;
+    opacity: 0;
+    transform: scale(1);
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.2s;
+}
+
+/* Span */
+.pure-material-checkbox > span {
+    display: inline-block;
+    width: 260px;
+    cursor: pointer;
+}
+
+/* Box */
+.pure-material-checkbox > span::before {
+    content: "";
+    display: inline-block;
+    box-sizing: border-box;
+    margin: 3px 11px 3px 1px;
+    border: solid 2px; /* Safari */
+    border-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.6);
+    border-radius: 2px;
+    width: 30px;
+    height: 30px;
+    vertical-align: top;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+/* Checkmark */
+.pure-material-checkbox > span::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 3px;
+    left: 1px;
+    width: 22px;
+    height: 10px;
+    border: solid 2px transparent;
+    border-right: none;
+    border-top: none;
+    transform: translate(3px, 4px) rotate(-45deg);
+}
+
+/* Checked, Indeterminate */
+.pure-material-checkbox > div.checked,
+.pure-material-checkbox > div.indeterminate {
+    background-color: rgb(var(--pure-material-primary-rgb, 43, 166, 98));
+}
+
+.pure-material-checkbox > div.checked + span::before,
+.pure-material-checkbox > div.indeterminate + span::before {
+    border-color: rgb(var(--pure-material-primary-rgb, 43, 166, 98));
+    background-color: rgb(var(--pure-material-primary-rgb, 43, 166, 98));
+}
+
+.pure-material-checkbox > div.checked + span::after,
+.pure-material-checkbox > div.indeterminate + span::after {
+    border-color: rgb(var(--pure-material-onprimary-rgb, 255, 255, 255));
+}
+
+.pure-material-checkbox > div.indeterminate + span::after {
+    border-left: none;
+    transform: translate(4px, 3px);
+}
+
+/* Hover, Focus */
+.pure-material-checkbox:hover > div.checkbox{
+    opacity: 0.04;
+}
+
+.pure-material-checkbox > div.focus {
+    opacity: 0.12;
+}
+
+.pure-material-checkbox:hover > div.focus {
+    opacity: 0.16;
+}
+
+/* Active */
+.pure-material-checkbox > div.active {
+    opacity: 1;
+    transform: scale(0);
+    transition: transform 0s, opacity 0s;
+}
+
+.pure-material-checkbox > div.active + span::before {
+    border-color: rgb(var(--pure-material-primary-rgb, 43, 166, 98));
+}
+
+.pure-material-checkbox > div.checked.active + span::before {
+    border-color: transparent;
+    background-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.6);
+}
+
+/* Disabled */
+.pure-material-checkbox > div.disabled {
+    opacity: 0;
+}
+
+.pure-material-checkbox > div.disabled + span {
+    color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.38);
+    cursor: initial;
+}
+
+.pure-material-checkbox > div.disabled + span::before {
+    border-color: currentColor;
+}
+
+.pure-material-checkbox > div.checked.disabled + span::before,
+.pure-material-checkbox > div.indeterminate.disabled + span::before {
+    border-color: transparent;
+    background-color: currentColor;
+}
