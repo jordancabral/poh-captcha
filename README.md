@@ -1,13 +1,13 @@
 # poh-captcha
 Captcha based on Proof of Humanity
 
+## disclaimer
+This project is for learning purposes. Im not expert in any of the tech stack used here (React, NestJs, Ethersjs).
+So maybe its full of errors or there are better ways for doing it. Any suggestions are welcome in PR or issues.
+
 ## description
 This is a work in progress proof of concept of a captcha based on Proof of Humanity services.
 We have two key modules:
-
-## disclaimer
-This proyect is for learning purposes. Im not expert in any of the tech stack used here (React, NestJs, Ethersjs).
-So maybe its full of errors or there are better ways for doing it. Any suggestions are welcome in PR or issues.
 
 ### frontend
 Right now its a simple react frontend with a Captcha component. The objetive is to have some default React component published, also we can have some other frameroks components ready to go.
