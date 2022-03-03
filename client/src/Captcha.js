@@ -3,9 +3,10 @@ import POH from "./contracts/ProofOfHumanity.json";
 import { useState } from "react";
 import Loader from "react-loader-spinner";
 import { ethers } from "ethers";
+import { v4 as uuid } from 'uuid';
 import "./Captcha.css"
 
-const Captcha = props => {
+const Captcha = ({handleWrong, handleOk, handleError }) => {
 
     const [photo, setPhoto] = useState("https://app.proofofhumanity.id/images/governance.png");
     const [checked, setChecked] = useState(null);
@@ -31,29 +32,33 @@ const Captcha = props => {
         const signer = await provider.getSigner();
         const address = await signer.getAddress();
 
-        // Load contract
+        // Load POH contract
         const network = await provider.getNetwork()
         const networkId = network.chainId
-        
         const pohNetwork = POH.networks[networkId];
         const pohContract = new ethers.Contract(pohNetwork.address, POH.abi, provider);
 
-        // Get info of user
+        // Check if user is registered in POH
         const response = await pohContract.isRegistered(address);
         if (!response){
-          props.handleWrong();
+          handleWrong();
         } else {
-          //const message = web3.utils.randomHex(32)
-          const message = "test" // Todo random msg
-
-          // Signs the message
+          
+          // Create message
+          const nonce = uuid();
+          const date = new Date().toISOString()
+          const message = JSON.stringify({
+            nonce,
+            date
+          })
+          
+          // Sign the message
           const signature = await signer.signMessage(message);
           const sig = {
               address,
               message,
               signature 
           }
-          console.log(sig)
       
           // Get Info from API
           getProfileInfo(address)
@@ -61,11 +66,11 @@ const Captcha = props => {
           setLoading(false)
           setChecked(true);
 
-          props.handleRight(Buffer.from(JSON.stringify(sig)).toString('base64'));
+          handleOk(Buffer.from(JSON.stringify(sig)).toString('base64'));
         }
 
       } catch (err) {
-          // TODO: props handle error 
+          handleError();
           console.error(err.message);
       }
     };
