@@ -3,14 +3,27 @@ import POH from "./contracts/ProofOfHumanity.json";
 import { useState } from "react";
 import Loader from "react-loader-spinner";
 import { ethers } from "ethers";
-import { v4 as uuid } from 'uuid';
+import { SiweMessage } from 'siwe';
 import "./Captcha.css"
 
-const Captcha = ({handleWrong, handleOk, handleError }) => {
+const Captcha = ({handleWrong, handleRight, handleError }) => {
 
     const [photo, setPhoto] = useState("https://app.proofofhumanity.id/images/governance.png");
     const [checked, setChecked] = useState(null);
     const [loading, setLoading] = useState(false);
+
+    const createSiweMessage = (address, statement, chainId = '1') => {
+      const domain = window.location.host;
+      const message = new SiweMessage({
+          domain,
+          address,
+          statement,
+          uri: origin,
+          version: '1',
+          chainId
+      });
+      return message.prepareMessage();
+    }
 
 
     const validateAdress = async () => {
@@ -43,19 +56,16 @@ const Captcha = ({handleWrong, handleOk, handleError }) => {
         if (!response){
           handleWrong();
         } else {
-          
-          // Create message
-          const nonce = uuid();
-          const date = new Date().toISOString()
-          const message = JSON.stringify({
-            nonce,
-            date
-          })
+
+          const message = createSiweMessage(
+            address,
+            'Certify you are not a robot with your POH wallet',
+            networkId
+          );
           
           // Sign the message
           const signature = await signer.signMessage(message);
           const sig = {
-              address,
               message,
               signature 
           }
@@ -66,7 +76,7 @@ const Captcha = ({handleWrong, handleOk, handleError }) => {
           setLoading(false)
           setChecked(true);
 
-          handleOk(Buffer.from(JSON.stringify(sig)).toString('base64'));
+          handleRight(Buffer.from(JSON.stringify(sig), 'utf8').toString('base64'));
         }
 
       } catch (err) {
