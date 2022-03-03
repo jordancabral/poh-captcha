@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Headers, BadRequestException } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ethers } from 'ethers';
+import { SiweMessage } from 'siwe';
 
 @Controller()
 export class AppController {
@@ -28,23 +29,24 @@ export class AppController {
   async postForm(@Headers('poh-captcha') captcha: string): Promise<string> {
     const decodedCaptcha = Buffer.from(captcha, 'base64').toString('utf8');
     const sig = JSON.parse(decodedCaptcha);
+    console.log('Plain signature message: ' + sig.message);
+
+    let message = new SiweMessage(sig.message);
 
     try {
-      const signerAddr = await ethers.utils.verifyMessage(sig.message, sig.signature);
-      if (signerAddr.toLowerCase() == sig.address.toLowerCase()) {
-        console.log('Signature OK');
-      } else {
-        console.log('Signature WRONG');
-        throw new BadRequestException('Wrong Signature');
-      }
-
-      const response = this.appService.findAddress(signerAddr);
+      // Validate signature
+      const fields = await message.validate(sig.signature);
+      console.log('Signature OK, validated signature message fields: ' + JSON.stringify(fields));
+      
+      // Find address in POH
+      const response = this.appService.findAddress(fields.address);
       await response.forEach((value) => {
         if (value.status == 200) {
           console.log('Human registered in POH');
         } else {
-          console.log('Not an Human registered in POH');
-          throw new BadRequestException('Not an Human registered in POH');
+          const errorMessage = 'Not an Human registered in POH'
+          console.log(errorMessage);
+          throw new BadRequestException(errorMessage);
         }
       });
     } catch (e) {
